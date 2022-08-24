@@ -7,7 +7,7 @@ USE `sample` ;
 SET CHARSET utf8mb4;
 
 CREATE TABLE
-    IF NOT EXISTS users (
+    IF NOT EXISTS students (
         id INT(11) AUTO_INCREMENT COMMENT "学籍番号",
         name VARCHAR(8) NOT NULL COMMENT "氏名",
         birthday DATE NOT NULL COMMENT "誕生日",

@@ -1,5 +1,5 @@
 -- Active: 1661332216709@@127.0.0.1@3306@sample
-INSERT INTO users
+INSERT INTO students
 VALUES (
         1,
         '山田一郎',

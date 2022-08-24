@@ -22,8 +22,8 @@ import (
 	"github.com/volatiletech/strmangle"
 )
 
-// User is an object representing the database table.
-type User struct { // 学籍番号
+// Student is an object representing the database table.
+type Student struct { // 学籍番号
 	ID int `boil:"id" json:"id" toml:"id" yaml:"id"`
 	// 氏名
 	Name string `boil:"name" json:"name" toml:"name" yaml:"name"`
@@ -38,11 +38,11 @@ type User struct { // 学籍番号
 	// ユーザー論理削除日時
 	DeteledAt null.Time `boil:"deteled_at" json:"deteled_at,omitempty" toml:"deteled_at" yaml:"deteled_at,omitempty"`
 
-	R *userR `boil:"-" json:"-" toml:"-" yaml:"-"`
-	L userL  `boil:"-" json:"-" toml:"-" yaml:"-"`
+	R *studentR `boil:"-" json:"-" toml:"-" yaml:"-"`
+	L studentL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
-var UserColumns = struct {
+var StudentColumns = struct {
 	ID        string
 	Name      string
 	Birthday  string
@@ -60,7 +60,7 @@ var UserColumns = struct {
 	DeteledAt: "deteled_at",
 }
 
-var UserTableColumns = struct {
+var StudentTableColumns = struct {
 	ID        string
 	Name      string
 	Birthday  string
@@ -69,13 +69,13 @@ var UserTableColumns = struct {
 	UpdatedAt string
 	DeteledAt string
 }{
-	ID:        "users.id",
-	Name:      "users.name",
-	Birthday:  "users.birthday",
-	Class:     "users.class",
-	CreatedAt: "users.created_at",
-	UpdatedAt: "users.updated_at",
-	DeteledAt: "users.deteled_at",
+	ID:        "students.id",
+	Name:      "students.name",
+	Birthday:  "students.birthday",
+	Class:     "students.class",
+	CreatedAt: "students.created_at",
+	UpdatedAt: "students.updated_at",
+	DeteledAt: "students.deteled_at",
 }
 
 // Generated where
@@ -171,7 +171,7 @@ func (w whereHelpernull_Time) GTE(x null.Time) qm.QueryMod {
 func (w whereHelpernull_Time) IsNull() qm.QueryMod    { return qmhelper.WhereIsNull(w.field) }
 func (w whereHelpernull_Time) IsNotNull() qm.QueryMod { return qmhelper.WhereIsNotNull(w.field) }
 
-var UserWhere = struct {
+var StudentWhere = struct {
 	ID        whereHelperint
 	Name      whereHelperstring
 	Birthday  whereHelpertime_Time
@@ -180,62 +180,62 @@ var UserWhere = struct {
 	UpdatedAt whereHelpertime_Time
 	DeteledAt whereHelpernull_Time
 }{
-	ID:        whereHelperint{field: "`users`.`id`"},
-	Name:      whereHelperstring{field: "`users`.`name`"},
-	Birthday:  whereHelpertime_Time{field: "`users`.`birthday`"},
-	Class:     whereHelperint{field: "`users`.`class`"},
-	CreatedAt: whereHelpertime_Time{field: "`users`.`created_at`"},
-	UpdatedAt: whereHelpertime_Time{field: "`users`.`updated_at`"},
-	DeteledAt: whereHelpernull_Time{field: "`users`.`deteled_at`"},
+	ID:        whereHelperint{field: "`students`.`id`"},
+	Name:      whereHelperstring{field: "`students`.`name`"},
+	Birthday:  whereHelpertime_Time{field: "`students`.`birthday`"},
+	Class:     whereHelperint{field: "`students`.`class`"},
+	CreatedAt: whereHelpertime_Time{field: "`students`.`created_at`"},
+	UpdatedAt: whereHelpertime_Time{field: "`students`.`updated_at`"},
+	DeteledAt: whereHelpernull_Time{field: "`students`.`deteled_at`"},
 }
 
-// UserRels is where relationship names are stored.
-var UserRels = struct {
+// StudentRels is where relationship names are stored.
+var StudentRels = struct {
 }{}
 
-// userR is where relationships are stored.
-type userR struct {
+// studentR is where relationships are stored.
+type studentR struct {
 }
 
 // NewStruct creates a new relationship struct
-func (*userR) NewStruct() *userR {
-	return &userR{}
+func (*studentR) NewStruct() *studentR {
+	return &studentR{}
 }
 
-// userL is where Load methods for each relationship are stored.
-type userL struct{}
+// studentL is where Load methods for each relationship are stored.
+type studentL struct{}
 
 var (
-	userAllColumns            = []string{"id", "name", "birthday", "class", "created_at", "updated_at", "deteled_at"}
-	userColumnsWithoutDefault = []string{"name", "birthday", "class", "deteled_at"}
-	userColumnsWithDefault    = []string{"id", "created_at", "updated_at"}
-	userPrimaryKeyColumns     = []string{"id"}
-	userGeneratedColumns      = []string{}
+	studentAllColumns            = []string{"id", "name", "birthday", "class", "created_at", "updated_at", "deteled_at"}
+	studentColumnsWithoutDefault = []string{"name", "birthday", "class", "deteled_at"}
+	studentColumnsWithDefault    = []string{"id", "created_at", "updated_at"}
+	studentPrimaryKeyColumns     = []string{"id"}
+	studentGeneratedColumns      = []string{}
 )
 
 type (
-	// UserSlice is an alias for a slice of pointers to User.
-	// This should almost always be used instead of []User.
-	UserSlice []*User
-	// UserHook is the signature for custom User hook methods
-	UserHook func(context.Context, boil.ContextExecutor, *User) error
+	// StudentSlice is an alias for a slice of pointers to Student.
+	// This should almost always be used instead of []Student.
+	StudentSlice []*Student
+	// StudentHook is the signature for custom Student hook methods
+	StudentHook func(context.Context, boil.ContextExecutor, *Student) error
 
-	userQuery struct {
+	studentQuery struct {
 		*queries.Query
 	}
 )
 
 // Cache for insert, update and upsert
 var (
-	userType                 = reflect.TypeOf(&User{})
-	userMapping              = queries.MakeStructMapping(userType)
-	userPrimaryKeyMapping, _ = queries.BindMapping(userType, userMapping, userPrimaryKeyColumns)
-	userInsertCacheMut       sync.RWMutex
-	userInsertCache          = make(map[string]insertCache)
-	userUpdateCacheMut       sync.RWMutex
-	userUpdateCache          = make(map[string]updateCache)
-	userUpsertCacheMut       sync.RWMutex
-	userUpsertCache          = make(map[string]insertCache)
+	studentType                 = reflect.TypeOf(&Student{})
+	studentMapping              = queries.MakeStructMapping(studentType)
+	studentPrimaryKeyMapping, _ = queries.BindMapping(studentType, studentMapping, studentPrimaryKeyColumns)
+	studentInsertCacheMut       sync.RWMutex
+	studentInsertCache          = make(map[string]insertCache)
+	studentUpdateCacheMut       sync.RWMutex
+	studentUpdateCache          = make(map[string]updateCache)
+	studentUpsertCacheMut       sync.RWMutex
+	studentUpsertCache          = make(map[string]insertCache)
 )
 
 var (
@@ -246,27 +246,27 @@ var (
 	_ = qmhelper.Where
 )
 
-var userAfterSelectHooks []UserHook
+var studentAfterSelectHooks []StudentHook
 
-var userBeforeInsertHooks []UserHook
-var userAfterInsertHooks []UserHook
+var studentBeforeInsertHooks []StudentHook
+var studentAfterInsertHooks []StudentHook
 
-var userBeforeUpdateHooks []UserHook
-var userAfterUpdateHooks []UserHook
+var studentBeforeUpdateHooks []StudentHook
+var studentAfterUpdateHooks []StudentHook
 
-var userBeforeDeleteHooks []UserHook
-var userAfterDeleteHooks []UserHook
+var studentBeforeDeleteHooks []StudentHook
+var studentAfterDeleteHooks []StudentHook
 
-var userBeforeUpsertHooks []UserHook
-var userAfterUpsertHooks []UserHook
+var studentBeforeUpsertHooks []StudentHook
+var studentAfterUpsertHooks []StudentHook
 
 // doAfterSelectHooks executes all "after Select" hooks.
-func (o *User) doAfterSelectHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
+func (o *Student) doAfterSelectHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
 	if boil.HooksAreSkipped(ctx) {
 		return nil
 	}
 
-	for _, hook := range userAfterSelectHooks {
+	for _, hook := range studentAfterSelectHooks {
 		if err := hook(ctx, exec, o); err != nil {
 			return err
 		}
@@ -276,12 +276,12 @@ func (o *User) doAfterSelectHooks(ctx context.Context, exec boil.ContextExecutor
 }
 
 // doBeforeInsertHooks executes all "before insert" hooks.
-func (o *User) doBeforeInsertHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
+func (o *Student) doBeforeInsertHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
 	if boil.HooksAreSkipped(ctx) {
 		return nil
 	}
 
-	for _, hook := range userBeforeInsertHooks {
+	for _, hook := range studentBeforeInsertHooks {
 		if err := hook(ctx, exec, o); err != nil {
 			return err
 		}
@@ -291,12 +291,12 @@ func (o *User) doBeforeInsertHooks(ctx context.Context, exec boil.ContextExecuto
 }
 
 // doAfterInsertHooks executes all "after Insert" hooks.
-func (o *User) doAfterInsertHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
+func (o *Student) doAfterInsertHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
 	if boil.HooksAreSkipped(ctx) {
 		return nil
 	}
 
-	for _, hook := range userAfterInsertHooks {
+	for _, hook := range studentAfterInsertHooks {
 		if err := hook(ctx, exec, o); err != nil {
 			return err
 		}
@@ -306,12 +306,12 @@ func (o *User) doAfterInsertHooks(ctx context.Context, exec boil.ContextExecutor
 }
 
 // doBeforeUpdateHooks executes all "before Update" hooks.
-func (o *User) doBeforeUpdateHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
+func (o *Student) doBeforeUpdateHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
 	if boil.HooksAreSkipped(ctx) {
 		return nil
 	}
 
-	for _, hook := range userBeforeUpdateHooks {
+	for _, hook := range studentBeforeUpdateHooks {
 		if err := hook(ctx, exec, o); err != nil {
 			return err
 		}
@@ -321,12 +321,12 @@ func (o *User) doBeforeUpdateHooks(ctx context.Context, exec boil.ContextExecuto
 }
 
 // doAfterUpdateHooks executes all "after Update" hooks.
-func (o *User) doAfterUpdateHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
+func (o *Student) doAfterUpdateHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
 	if boil.HooksAreSkipped(ctx) {
 		return nil
 	}
 
-	for _, hook := range userAfterUpdateHooks {
+	for _, hook := range studentAfterUpdateHooks {
 		if err := hook(ctx, exec, o); err != nil {
 			return err
 		}
@@ -336,12 +336,12 @@ func (o *User) doAfterUpdateHooks(ctx context.Context, exec boil.ContextExecutor
 }
 
 // doBeforeDeleteHooks executes all "before Delete" hooks.
-func (o *User) doBeforeDeleteHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
+func (o *Student) doBeforeDeleteHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
 	if boil.HooksAreSkipped(ctx) {
 		return nil
 	}
 
-	for _, hook := range userBeforeDeleteHooks {
+	for _, hook := range studentBeforeDeleteHooks {
 		if err := hook(ctx, exec, o); err != nil {
 			return err
 		}
@@ -351,12 +351,12 @@ func (o *User) doBeforeDeleteHooks(ctx context.Context, exec boil.ContextExecuto
 }
 
 // doAfterDeleteHooks executes all "after Delete" hooks.
-func (o *User) doAfterDeleteHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
+func (o *Student) doAfterDeleteHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
 	if boil.HooksAreSkipped(ctx) {
 		return nil
 	}
 
-	for _, hook := range userAfterDeleteHooks {
+	for _, hook := range studentAfterDeleteHooks {
 		if err := hook(ctx, exec, o); err != nil {
 			return err
 		}
@@ -366,12 +366,12 @@ func (o *User) doAfterDeleteHooks(ctx context.Context, exec boil.ContextExecutor
 }
 
 // doBeforeUpsertHooks executes all "before Upsert" hooks.
-func (o *User) doBeforeUpsertHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
+func (o *Student) doBeforeUpsertHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
 	if boil.HooksAreSkipped(ctx) {
 		return nil
 	}
 
-	for _, hook := range userBeforeUpsertHooks {
+	for _, hook := range studentBeforeUpsertHooks {
 		if err := hook(ctx, exec, o); err != nil {
 			return err
 		}
@@ -381,12 +381,12 @@ func (o *User) doBeforeUpsertHooks(ctx context.Context, exec boil.ContextExecuto
 }
 
 // doAfterUpsertHooks executes all "after Upsert" hooks.
-func (o *User) doAfterUpsertHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
+func (o *Student) doAfterUpsertHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
 	if boil.HooksAreSkipped(ctx) {
 		return nil
 	}
 
-	for _, hook := range userAfterUpsertHooks {
+	for _, hook := range studentAfterUpsertHooks {
 		if err := hook(ctx, exec, o); err != nil {
 			return err
 		}
@@ -395,38 +395,38 @@ func (o *User) doAfterUpsertHooks(ctx context.Context, exec boil.ContextExecutor
 	return nil
 }
 
-// AddUserHook registers your hook function for all future operations.
-func AddUserHook(hookPoint boil.HookPoint, userHook UserHook) {
+// AddStudentHook registers your hook function for all future operations.
+func AddStudentHook(hookPoint boil.HookPoint, studentHook StudentHook) {
 	switch hookPoint {
 	case boil.AfterSelectHook:
-		userAfterSelectHooks = append(userAfterSelectHooks, userHook)
+		studentAfterSelectHooks = append(studentAfterSelectHooks, studentHook)
 	case boil.BeforeInsertHook:
-		userBeforeInsertHooks = append(userBeforeInsertHooks, userHook)
+		studentBeforeInsertHooks = append(studentBeforeInsertHooks, studentHook)
 	case boil.AfterInsertHook:
-		userAfterInsertHooks = append(userAfterInsertHooks, userHook)
+		studentAfterInsertHooks = append(studentAfterInsertHooks, studentHook)
 	case boil.BeforeUpdateHook:
-		userBeforeUpdateHooks = append(userBeforeUpdateHooks, userHook)
+		studentBeforeUpdateHooks = append(studentBeforeUpdateHooks, studentHook)
 	case boil.AfterUpdateHook:
-		userAfterUpdateHooks = append(userAfterUpdateHooks, userHook)
+		studentAfterUpdateHooks = append(studentAfterUpdateHooks, studentHook)
 	case boil.BeforeDeleteHook:
-		userBeforeDeleteHooks = append(userBeforeDeleteHooks, userHook)
+		studentBeforeDeleteHooks = append(studentBeforeDeleteHooks, studentHook)
 	case boil.AfterDeleteHook:
-		userAfterDeleteHooks = append(userAfterDeleteHooks, userHook)
+		studentAfterDeleteHooks = append(studentAfterDeleteHooks, studentHook)
 	case boil.BeforeUpsertHook:
-		userBeforeUpsertHooks = append(userBeforeUpsertHooks, userHook)
+		studentBeforeUpsertHooks = append(studentBeforeUpsertHooks, studentHook)
 	case boil.AfterUpsertHook:
-		userAfterUpsertHooks = append(userAfterUpsertHooks, userHook)
+		studentAfterUpsertHooks = append(studentAfterUpsertHooks, studentHook)
 	}
 }
 
-// OneG returns a single user record from the query using the global executor.
-func (q userQuery) OneG(ctx context.Context) (*User, error) {
+// OneG returns a single student record from the query using the global executor.
+func (q studentQuery) OneG(ctx context.Context) (*Student, error) {
 	return q.One(ctx, boil.GetContextDB())
 }
 
-// One returns a single user record from the query.
-func (q userQuery) One(ctx context.Context, exec boil.ContextExecutor) (*User, error) {
-	o := &User{}
+// One returns a single student record from the query.
+func (q studentQuery) One(ctx context.Context, exec boil.ContextExecutor) (*Student, error) {
+	o := &Student{}
 
 	queries.SetLimit(q.Query, 1)
 
@@ -435,7 +435,7 @@ func (q userQuery) One(ctx context.Context, exec boil.ContextExecutor) (*User, e
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, sql.ErrNoRows
 		}
-		return nil, errors.Wrap(err, "model: failed to execute a one query for users")
+		return nil, errors.Wrap(err, "model: failed to execute a one query for students")
 	}
 
 	if err := o.doAfterSelectHooks(ctx, exec); err != nil {
@@ -445,21 +445,21 @@ func (q userQuery) One(ctx context.Context, exec boil.ContextExecutor) (*User, e
 	return o, nil
 }
 
-// AllG returns all User records from the query using the global executor.
-func (q userQuery) AllG(ctx context.Context) (UserSlice, error) {
+// AllG returns all Student records from the query using the global executor.
+func (q studentQuery) AllG(ctx context.Context) (StudentSlice, error) {
 	return q.All(ctx, boil.GetContextDB())
 }
 
-// All returns all User records from the query.
-func (q userQuery) All(ctx context.Context, exec boil.ContextExecutor) (UserSlice, error) {
-	var o []*User
+// All returns all Student records from the query.
+func (q studentQuery) All(ctx context.Context, exec boil.ContextExecutor) (StudentSlice, error) {
+	var o []*Student
 
 	err := q.Bind(ctx, exec, &o)
 	if err != nil {
-		return nil, errors.Wrap(err, "model: failed to assign all query results to User slice")
+		return nil, errors.Wrap(err, "model: failed to assign all query results to Student slice")
 	}
 
-	if len(userAfterSelectHooks) != 0 {
+	if len(studentAfterSelectHooks) != 0 {
 		for _, obj := range o {
 			if err := obj.doAfterSelectHooks(ctx, exec); err != nil {
 				return o, err
@@ -470,13 +470,13 @@ func (q userQuery) All(ctx context.Context, exec boil.ContextExecutor) (UserSlic
 	return o, nil
 }
 
-// CountG returns the count of all User records in the query using the global executor
-func (q userQuery) CountG(ctx context.Context) (int64, error) {
+// CountG returns the count of all Student records in the query using the global executor
+func (q studentQuery) CountG(ctx context.Context) (int64, error) {
 	return q.Count(ctx, boil.GetContextDB())
 }
 
-// Count returns the count of all User records in the query.
-func (q userQuery) Count(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
+// Count returns the count of all Student records in the query.
+func (q studentQuery) Count(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
 	var count int64
 
 	queries.SetSelect(q.Query, nil)
@@ -484,19 +484,19 @@ func (q userQuery) Count(ctx context.Context, exec boil.ContextExecutor) (int64,
 
 	err := q.Query.QueryRowContext(ctx, exec).Scan(&count)
 	if err != nil {
-		return 0, errors.Wrap(err, "model: failed to count users rows")
+		return 0, errors.Wrap(err, "model: failed to count students rows")
 	}
 
 	return count, nil
 }
 
 // ExistsG checks if the row exists in the table using the global executor.
-func (q userQuery) ExistsG(ctx context.Context) (bool, error) {
+func (q studentQuery) ExistsG(ctx context.Context) (bool, error) {
 	return q.Exists(ctx, boil.GetContextDB())
 }
 
 // Exists checks if the row exists in the table.
-func (q userQuery) Exists(ctx context.Context, exec boil.ContextExecutor) (bool, error) {
+func (q studentQuery) Exists(ctx context.Context, exec boil.ContextExecutor) (bool, error) {
 	var count int64
 
 	queries.SetSelect(q.Query, nil)
@@ -505,68 +505,68 @@ func (q userQuery) Exists(ctx context.Context, exec boil.ContextExecutor) (bool,
 
 	err := q.Query.QueryRowContext(ctx, exec).Scan(&count)
 	if err != nil {
-		return false, errors.Wrap(err, "model: failed to check if users exists")
+		return false, errors.Wrap(err, "model: failed to check if students exists")
 	}
 
 	return count > 0, nil
 }
 
-// Users retrieves all the records using an executor.
-func Users(mods ...qm.QueryMod) userQuery {
-	mods = append(mods, qm.From("`users`"))
+// Students retrieves all the records using an executor.
+func Students(mods ...qm.QueryMod) studentQuery {
+	mods = append(mods, qm.From("`students`"))
 	q := NewQuery(mods...)
 	if len(queries.GetSelect(q)) == 0 {
-		queries.SetSelect(q, []string{"`users`.*"})
+		queries.SetSelect(q, []string{"`students`.*"})
 	}
 
-	return userQuery{q}
+	return studentQuery{q}
 }
 
-// FindUserG retrieves a single record by ID.
-func FindUserG(ctx context.Context, iD int, selectCols ...string) (*User, error) {
-	return FindUser(ctx, boil.GetContextDB(), iD, selectCols...)
+// FindStudentG retrieves a single record by ID.
+func FindStudentG(ctx context.Context, iD int, selectCols ...string) (*Student, error) {
+	return FindStudent(ctx, boil.GetContextDB(), iD, selectCols...)
 }
 
-// FindUser retrieves a single record by ID with an executor.
+// FindStudent retrieves a single record by ID with an executor.
 // If selectCols is empty Find will return all columns.
-func FindUser(ctx context.Context, exec boil.ContextExecutor, iD int, selectCols ...string) (*User, error) {
-	userObj := &User{}
+func FindStudent(ctx context.Context, exec boil.ContextExecutor, iD int, selectCols ...string) (*Student, error) {
+	studentObj := &Student{}
 
 	sel := "*"
 	if len(selectCols) > 0 {
 		sel = strings.Join(strmangle.IdentQuoteSlice(dialect.LQ, dialect.RQ, selectCols), ",")
 	}
 	query := fmt.Sprintf(
-		"select %s from `users` where `id`=?", sel,
+		"select %s from `students` where `id`=?", sel,
 	)
 
 	q := queries.Raw(query, iD)
 
-	err := q.Bind(ctx, exec, userObj)
+	err := q.Bind(ctx, exec, studentObj)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, sql.ErrNoRows
 		}
-		return nil, errors.Wrap(err, "model: unable to select from users")
+		return nil, errors.Wrap(err, "model: unable to select from students")
 	}
 
-	if err = userObj.doAfterSelectHooks(ctx, exec); err != nil {
-		return userObj, err
+	if err = studentObj.doAfterSelectHooks(ctx, exec); err != nil {
+		return studentObj, err
 	}
 
-	return userObj, nil
+	return studentObj, nil
 }
 
 // InsertG a single record. See Insert for whitelist behavior description.
-func (o *User) InsertG(ctx context.Context, columns boil.Columns) error {
+func (o *Student) InsertG(ctx context.Context, columns boil.Columns) error {
 	return o.Insert(ctx, boil.GetContextDB(), columns)
 }
 
 // Insert a single record using an executor.
 // See boil.Columns.InsertColumnSet documentation to understand column list inference for inserts.
-func (o *User) Insert(ctx context.Context, exec boil.ContextExecutor, columns boil.Columns) error {
+func (o *Student) Insert(ctx context.Context, exec boil.ContextExecutor, columns boil.Columns) error {
 	if o == nil {
-		return errors.New("model: no users provided for insertion")
+		return errors.New("model: no students provided for insertion")
 	}
 
 	var err error
@@ -585,39 +585,39 @@ func (o *User) Insert(ctx context.Context, exec boil.ContextExecutor, columns bo
 		return err
 	}
 
-	nzDefaults := queries.NonZeroDefaultSet(userColumnsWithDefault, o)
+	nzDefaults := queries.NonZeroDefaultSet(studentColumnsWithDefault, o)
 
 	key := makeCacheKey(columns, nzDefaults)
-	userInsertCacheMut.RLock()
-	cache, cached := userInsertCache[key]
-	userInsertCacheMut.RUnlock()
+	studentInsertCacheMut.RLock()
+	cache, cached := studentInsertCache[key]
+	studentInsertCacheMut.RUnlock()
 
 	if !cached {
 		wl, returnColumns := columns.InsertColumnSet(
-			userAllColumns,
-			userColumnsWithDefault,
-			userColumnsWithoutDefault,
+			studentAllColumns,
+			studentColumnsWithDefault,
+			studentColumnsWithoutDefault,
 			nzDefaults,
 		)
 
-		cache.valueMapping, err = queries.BindMapping(userType, userMapping, wl)
+		cache.valueMapping, err = queries.BindMapping(studentType, studentMapping, wl)
 		if err != nil {
 			return err
 		}
-		cache.retMapping, err = queries.BindMapping(userType, userMapping, returnColumns)
+		cache.retMapping, err = queries.BindMapping(studentType, studentMapping, returnColumns)
 		if err != nil {
 			return err
 		}
 		if len(wl) != 0 {
-			cache.query = fmt.Sprintf("INSERT INTO `users` (`%s`) %%sVALUES (%s)%%s", strings.Join(wl, "`,`"), strmangle.Placeholders(dialect.UseIndexPlaceholders, len(wl), 1, 1))
+			cache.query = fmt.Sprintf("INSERT INTO `students` (`%s`) %%sVALUES (%s)%%s", strings.Join(wl, "`,`"), strmangle.Placeholders(dialect.UseIndexPlaceholders, len(wl), 1, 1))
 		} else {
-			cache.query = "INSERT INTO `users` () VALUES ()%s%s"
+			cache.query = "INSERT INTO `students` () VALUES ()%s%s"
 		}
 
 		var queryOutput, queryReturning string
 
 		if len(cache.retMapping) != 0 {
-			cache.retQuery = fmt.Sprintf("SELECT `%s` FROM `users` WHERE %s", strings.Join(returnColumns, "`,`"), strmangle.WhereClause("`", "`", 0, userPrimaryKeyColumns))
+			cache.retQuery = fmt.Sprintf("SELECT `%s` FROM `students` WHERE %s", strings.Join(returnColumns, "`,`"), strmangle.WhereClause("`", "`", 0, studentPrimaryKeyColumns))
 		}
 
 		cache.query = fmt.Sprintf(cache.query, queryOutput, queryReturning)
@@ -634,7 +634,7 @@ func (o *User) Insert(ctx context.Context, exec boil.ContextExecutor, columns bo
 	result, err := exec.ExecContext(ctx, cache.query, vals...)
 
 	if err != nil {
-		return errors.Wrap(err, "model: unable to insert into users")
+		return errors.Wrap(err, "model: unable to insert into students")
 	}
 
 	var lastID int64
@@ -650,7 +650,7 @@ func (o *User) Insert(ctx context.Context, exec boil.ContextExecutor, columns bo
 	}
 
 	o.ID = int(lastID)
-	if lastID != 0 && len(cache.retMapping) == 1 && cache.retMapping[0] == userMapping["id"] {
+	if lastID != 0 && len(cache.retMapping) == 1 && cache.retMapping[0] == studentMapping["id"] {
 		goto CacheNoHooks
 	}
 
@@ -665,29 +665,29 @@ func (o *User) Insert(ctx context.Context, exec boil.ContextExecutor, columns bo
 	}
 	err = exec.QueryRowContext(ctx, cache.retQuery, identifierCols...).Scan(queries.PtrsFromMapping(value, cache.retMapping)...)
 	if err != nil {
-		return errors.Wrap(err, "model: unable to populate default values for users")
+		return errors.Wrap(err, "model: unable to populate default values for students")
 	}
 
 CacheNoHooks:
 	if !cached {
-		userInsertCacheMut.Lock()
-		userInsertCache[key] = cache
-		userInsertCacheMut.Unlock()
+		studentInsertCacheMut.Lock()
+		studentInsertCache[key] = cache
+		studentInsertCacheMut.Unlock()
 	}
 
 	return o.doAfterInsertHooks(ctx, exec)
 }
 
-// UpdateG a single User record using the global executor.
+// UpdateG a single Student record using the global executor.
 // See Update for more documentation.
-func (o *User) UpdateG(ctx context.Context, columns boil.Columns) (int64, error) {
+func (o *Student) UpdateG(ctx context.Context, columns boil.Columns) (int64, error) {
 	return o.Update(ctx, boil.GetContextDB(), columns)
 }
 
-// Update uses an executor to update the User.
+// Update uses an executor to update the Student.
 // See boil.Columns.UpdateColumnSet documentation to understand column list inference for updates.
 // Update does not automatically update the record in case of default values. Use .Reload() to refresh the records.
-func (o *User) Update(ctx context.Context, exec boil.ContextExecutor, columns boil.Columns) (int64, error) {
+func (o *Student) Update(ctx context.Context, exec boil.ContextExecutor, columns boil.Columns) (int64, error) {
 	if !boil.TimestampsAreSkipped(ctx) {
 		currTime := time.Now().In(boil.GetLocation())
 
@@ -699,28 +699,28 @@ func (o *User) Update(ctx context.Context, exec boil.ContextExecutor, columns bo
 		return 0, err
 	}
 	key := makeCacheKey(columns, nil)
-	userUpdateCacheMut.RLock()
-	cache, cached := userUpdateCache[key]
-	userUpdateCacheMut.RUnlock()
+	studentUpdateCacheMut.RLock()
+	cache, cached := studentUpdateCache[key]
+	studentUpdateCacheMut.RUnlock()
 
 	if !cached {
 		wl := columns.UpdateColumnSet(
-			userAllColumns,
-			userPrimaryKeyColumns,
+			studentAllColumns,
+			studentPrimaryKeyColumns,
 		)
 
 		if !columns.IsWhitelist() {
 			wl = strmangle.SetComplement(wl, []string{"created_at"})
 		}
 		if len(wl) == 0 {
-			return 0, errors.New("model: unable to update users, could not build whitelist")
+			return 0, errors.New("model: unable to update students, could not build whitelist")
 		}
 
-		cache.query = fmt.Sprintf("UPDATE `users` SET %s WHERE %s",
+		cache.query = fmt.Sprintf("UPDATE `students` SET %s WHERE %s",
 			strmangle.SetParamNames("`", "`", 0, wl),
-			strmangle.WhereClause("`", "`", 0, userPrimaryKeyColumns),
+			strmangle.WhereClause("`", "`", 0, studentPrimaryKeyColumns),
 		)
-		cache.valueMapping, err = queries.BindMapping(userType, userMapping, append(wl, userPrimaryKeyColumns...))
+		cache.valueMapping, err = queries.BindMapping(studentType, studentMapping, append(wl, studentPrimaryKeyColumns...))
 		if err != nil {
 			return 0, err
 		}
@@ -736,52 +736,52 @@ func (o *User) Update(ctx context.Context, exec boil.ContextExecutor, columns bo
 	var result sql.Result
 	result, err = exec.ExecContext(ctx, cache.query, values...)
 	if err != nil {
-		return 0, errors.Wrap(err, "model: unable to update users row")
+		return 0, errors.Wrap(err, "model: unable to update students row")
 	}
 
 	rowsAff, err := result.RowsAffected()
 	if err != nil {
-		return 0, errors.Wrap(err, "model: failed to get rows affected by update for users")
+		return 0, errors.Wrap(err, "model: failed to get rows affected by update for students")
 	}
 
 	if !cached {
-		userUpdateCacheMut.Lock()
-		userUpdateCache[key] = cache
-		userUpdateCacheMut.Unlock()
+		studentUpdateCacheMut.Lock()
+		studentUpdateCache[key] = cache
+		studentUpdateCacheMut.Unlock()
 	}
 
 	return rowsAff, o.doAfterUpdateHooks(ctx, exec)
 }
 
 // UpdateAllG updates all rows with the specified column values.
-func (q userQuery) UpdateAllG(ctx context.Context, cols M) (int64, error) {
+func (q studentQuery) UpdateAllG(ctx context.Context, cols M) (int64, error) {
 	return q.UpdateAll(ctx, boil.GetContextDB(), cols)
 }
 
 // UpdateAll updates all rows with the specified column values.
-func (q userQuery) UpdateAll(ctx context.Context, exec boil.ContextExecutor, cols M) (int64, error) {
+func (q studentQuery) UpdateAll(ctx context.Context, exec boil.ContextExecutor, cols M) (int64, error) {
 	queries.SetUpdate(q.Query, cols)
 
 	result, err := q.Query.ExecContext(ctx, exec)
 	if err != nil {
-		return 0, errors.Wrap(err, "model: unable to update all for users")
+		return 0, errors.Wrap(err, "model: unable to update all for students")
 	}
 
 	rowsAff, err := result.RowsAffected()
 	if err != nil {
-		return 0, errors.Wrap(err, "model: unable to retrieve rows affected for users")
+		return 0, errors.Wrap(err, "model: unable to retrieve rows affected for students")
 	}
 
 	return rowsAff, nil
 }
 
 // UpdateAllG updates all rows with the specified column values.
-func (o UserSlice) UpdateAllG(ctx context.Context, cols M) (int64, error) {
+func (o StudentSlice) UpdateAllG(ctx context.Context, cols M) (int64, error) {
 	return o.UpdateAll(ctx, boil.GetContextDB(), cols)
 }
 
 // UpdateAll updates all rows with the specified column values, using an executor.
-func (o UserSlice) UpdateAll(ctx context.Context, exec boil.ContextExecutor, cols M) (int64, error) {
+func (o StudentSlice) UpdateAll(ctx context.Context, exec boil.ContextExecutor, cols M) (int64, error) {
 	ln := int64(len(o))
 	if ln == 0 {
 		return 0, nil
@@ -803,13 +803,13 @@ func (o UserSlice) UpdateAll(ctx context.Context, exec boil.ContextExecutor, col
 
 	// Append all of the primary key values for each column
 	for _, obj := range o {
-		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), userPrimaryKeyMapping)
+		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), studentPrimaryKeyMapping)
 		args = append(args, pkeyArgs...)
 	}
 
-	sql := fmt.Sprintf("UPDATE `users` SET %s WHERE %s",
+	sql := fmt.Sprintf("UPDATE `students` SET %s WHERE %s",
 		strmangle.SetParamNames("`", "`", 0, colNames),
-		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 0, userPrimaryKeyColumns, len(o)))
+		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 0, studentPrimaryKeyColumns, len(o)))
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
@@ -818,30 +818,30 @@ func (o UserSlice) UpdateAll(ctx context.Context, exec boil.ContextExecutor, col
 	}
 	result, err := exec.ExecContext(ctx, sql, args...)
 	if err != nil {
-		return 0, errors.Wrap(err, "model: unable to update all in user slice")
+		return 0, errors.Wrap(err, "model: unable to update all in student slice")
 	}
 
 	rowsAff, err := result.RowsAffected()
 	if err != nil {
-		return 0, errors.Wrap(err, "model: unable to retrieve rows affected all in update all user")
+		return 0, errors.Wrap(err, "model: unable to retrieve rows affected all in update all student")
 	}
 	return rowsAff, nil
 }
 
 // UpsertG attempts an insert, and does an update or ignore on conflict.
-func (o *User) UpsertG(ctx context.Context, updateColumns, insertColumns boil.Columns) error {
+func (o *Student) UpsertG(ctx context.Context, updateColumns, insertColumns boil.Columns) error {
 	return o.Upsert(ctx, boil.GetContextDB(), updateColumns, insertColumns)
 }
 
-var mySQLUserUniqueColumns = []string{
+var mySQLStudentUniqueColumns = []string{
 	"id",
 }
 
 // Upsert attempts an insert using an executor, and does an update or ignore on conflict.
 // See boil.Columns documentation for how to properly use updateColumns and insertColumns.
-func (o *User) Upsert(ctx context.Context, exec boil.ContextExecutor, updateColumns, insertColumns boil.Columns) error {
+func (o *Student) Upsert(ctx context.Context, exec boil.ContextExecutor, updateColumns, insertColumns boil.Columns) error {
 	if o == nil {
-		return errors.New("model: no users provided for upsert")
+		return errors.New("model: no students provided for upsert")
 	}
 	if !boil.TimestampsAreSkipped(ctx) {
 		currTime := time.Now().In(boil.GetLocation())
@@ -856,8 +856,8 @@ func (o *User) Upsert(ctx context.Context, exec boil.ContextExecutor, updateColu
 		return err
 	}
 
-	nzDefaults := queries.NonZeroDefaultSet(userColumnsWithDefault, o)
-	nzUniques := queries.NonZeroDefaultSet(mySQLUserUniqueColumns, o)
+	nzDefaults := queries.NonZeroDefaultSet(studentColumnsWithDefault, o)
+	nzUniques := queries.NonZeroDefaultSet(mySQLStudentUniqueColumns, o)
 
 	if len(nzUniques) == 0 {
 		return errors.New("cannot upsert with a table that cannot conflict on a unique column")
@@ -885,43 +885,43 @@ func (o *User) Upsert(ctx context.Context, exec boil.ContextExecutor, updateColu
 	key := buf.String()
 	strmangle.PutBuffer(buf)
 
-	userUpsertCacheMut.RLock()
-	cache, cached := userUpsertCache[key]
-	userUpsertCacheMut.RUnlock()
+	studentUpsertCacheMut.RLock()
+	cache, cached := studentUpsertCache[key]
+	studentUpsertCacheMut.RUnlock()
 
 	var err error
 
 	if !cached {
 		insert, ret := insertColumns.InsertColumnSet(
-			userAllColumns,
-			userColumnsWithDefault,
-			userColumnsWithoutDefault,
+			studentAllColumns,
+			studentColumnsWithDefault,
+			studentColumnsWithoutDefault,
 			nzDefaults,
 		)
 
 		update := updateColumns.UpdateColumnSet(
-			userAllColumns,
-			userPrimaryKeyColumns,
+			studentAllColumns,
+			studentPrimaryKeyColumns,
 		)
 
 		if !updateColumns.IsNone() && len(update) == 0 {
-			return errors.New("model: unable to upsert users, could not build update column list")
+			return errors.New("model: unable to upsert students, could not build update column list")
 		}
 
 		ret = strmangle.SetComplement(ret, nzUniques)
-		cache.query = buildUpsertQueryMySQL(dialect, "`users`", update, insert)
+		cache.query = buildUpsertQueryMySQL(dialect, "`students`", update, insert)
 		cache.retQuery = fmt.Sprintf(
-			"SELECT %s FROM `users` WHERE %s",
+			"SELECT %s FROM `students` WHERE %s",
 			strings.Join(strmangle.IdentQuoteSlice(dialect.LQ, dialect.RQ, ret), ","),
 			strmangle.WhereClause("`", "`", 0, nzUniques),
 		)
 
-		cache.valueMapping, err = queries.BindMapping(userType, userMapping, insert)
+		cache.valueMapping, err = queries.BindMapping(studentType, studentMapping, insert)
 		if err != nil {
 			return err
 		}
 		if len(ret) != 0 {
-			cache.retMapping, err = queries.BindMapping(userType, userMapping, ret)
+			cache.retMapping, err = queries.BindMapping(studentType, studentMapping, ret)
 			if err != nil {
 				return err
 			}
@@ -943,7 +943,7 @@ func (o *User) Upsert(ctx context.Context, exec boil.ContextExecutor, updateColu
 	result, err := exec.ExecContext(ctx, cache.query, vals...)
 
 	if err != nil {
-		return errors.Wrap(err, "model: unable to upsert for users")
+		return errors.Wrap(err, "model: unable to upsert for students")
 	}
 
 	var lastID int64
@@ -960,13 +960,13 @@ func (o *User) Upsert(ctx context.Context, exec boil.ContextExecutor, updateColu
 	}
 
 	o.ID = int(lastID)
-	if lastID != 0 && len(cache.retMapping) == 1 && cache.retMapping[0] == userMapping["id"] {
+	if lastID != 0 && len(cache.retMapping) == 1 && cache.retMapping[0] == studentMapping["id"] {
 		goto CacheNoHooks
 	}
 
-	uniqueMap, err = queries.BindMapping(userType, userMapping, nzUniques)
+	uniqueMap, err = queries.BindMapping(studentType, studentMapping, nzUniques)
 	if err != nil {
-		return errors.Wrap(err, "model: unable to retrieve unique values for users")
+		return errors.Wrap(err, "model: unable to retrieve unique values for students")
 	}
 	nzUniqueCols = queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(o)), uniqueMap)
 
@@ -977,38 +977,38 @@ func (o *User) Upsert(ctx context.Context, exec boil.ContextExecutor, updateColu
 	}
 	err = exec.QueryRowContext(ctx, cache.retQuery, nzUniqueCols...).Scan(returns...)
 	if err != nil {
-		return errors.Wrap(err, "model: unable to populate default values for users")
+		return errors.Wrap(err, "model: unable to populate default values for students")
 	}
 
 CacheNoHooks:
 	if !cached {
-		userUpsertCacheMut.Lock()
-		userUpsertCache[key] = cache
-		userUpsertCacheMut.Unlock()
+		studentUpsertCacheMut.Lock()
+		studentUpsertCache[key] = cache
+		studentUpsertCacheMut.Unlock()
 	}
 
 	return o.doAfterUpsertHooks(ctx, exec)
 }
 
-// DeleteG deletes a single User record.
+// DeleteG deletes a single Student record.
 // DeleteG will match against the primary key column to find the record to delete.
-func (o *User) DeleteG(ctx context.Context) (int64, error) {
+func (o *Student) DeleteG(ctx context.Context) (int64, error) {
 	return o.Delete(ctx, boil.GetContextDB())
 }
 
-// Delete deletes a single User record with an executor.
+// Delete deletes a single Student record with an executor.
 // Delete will match against the primary key column to find the record to delete.
-func (o *User) Delete(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
+func (o *Student) Delete(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
 	if o == nil {
-		return 0, errors.New("model: no User provided for delete")
+		return 0, errors.New("model: no Student provided for delete")
 	}
 
 	if err := o.doBeforeDeleteHooks(ctx, exec); err != nil {
 		return 0, err
 	}
 
-	args := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(o)), userPrimaryKeyMapping)
-	sql := "DELETE FROM `users` WHERE `id`=?"
+	args := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(o)), studentPrimaryKeyMapping)
+	sql := "DELETE FROM `students` WHERE `id`=?"
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
@@ -1017,12 +1017,12 @@ func (o *User) Delete(ctx context.Context, exec boil.ContextExecutor) (int64, er
 	}
 	result, err := exec.ExecContext(ctx, sql, args...)
 	if err != nil {
-		return 0, errors.Wrap(err, "model: unable to delete from users")
+		return 0, errors.Wrap(err, "model: unable to delete from students")
 	}
 
 	rowsAff, err := result.RowsAffected()
 	if err != nil {
-		return 0, errors.Wrap(err, "model: failed to get rows affected by delete for users")
+		return 0, errors.Wrap(err, "model: failed to get rows affected by delete for students")
 	}
 
 	if err := o.doAfterDeleteHooks(ctx, exec); err != nil {
@@ -1032,43 +1032,43 @@ func (o *User) Delete(ctx context.Context, exec boil.ContextExecutor) (int64, er
 	return rowsAff, nil
 }
 
-func (q userQuery) DeleteAllG(ctx context.Context) (int64, error) {
+func (q studentQuery) DeleteAllG(ctx context.Context) (int64, error) {
 	return q.DeleteAll(ctx, boil.GetContextDB())
 }
 
 // DeleteAll deletes all matching rows.
-func (q userQuery) DeleteAll(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
+func (q studentQuery) DeleteAll(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
 	if q.Query == nil {
-		return 0, errors.New("model: no userQuery provided for delete all")
+		return 0, errors.New("model: no studentQuery provided for delete all")
 	}
 
 	queries.SetDelete(q.Query)
 
 	result, err := q.Query.ExecContext(ctx, exec)
 	if err != nil {
-		return 0, errors.Wrap(err, "model: unable to delete all from users")
+		return 0, errors.Wrap(err, "model: unable to delete all from students")
 	}
 
 	rowsAff, err := result.RowsAffected()
 	if err != nil {
-		return 0, errors.Wrap(err, "model: failed to get rows affected by deleteall for users")
+		return 0, errors.Wrap(err, "model: failed to get rows affected by deleteall for students")
 	}
 
 	return rowsAff, nil
 }
 
 // DeleteAllG deletes all rows in the slice.
-func (o UserSlice) DeleteAllG(ctx context.Context) (int64, error) {
+func (o StudentSlice) DeleteAllG(ctx context.Context) (int64, error) {
 	return o.DeleteAll(ctx, boil.GetContextDB())
 }
 
 // DeleteAll deletes all rows in the slice, using an executor.
-func (o UserSlice) DeleteAll(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
+func (o StudentSlice) DeleteAll(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
 	if len(o) == 0 {
 		return 0, nil
 	}
 
-	if len(userBeforeDeleteHooks) != 0 {
+	if len(studentBeforeDeleteHooks) != 0 {
 		for _, obj := range o {
 			if err := obj.doBeforeDeleteHooks(ctx, exec); err != nil {
 				return 0, err
@@ -1078,12 +1078,12 @@ func (o UserSlice) DeleteAll(ctx context.Context, exec boil.ContextExecutor) (in
 
 	var args []interface{}
 	for _, obj := range o {
-		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), userPrimaryKeyMapping)
+		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), studentPrimaryKeyMapping)
 		args = append(args, pkeyArgs...)
 	}
 
-	sql := "DELETE FROM `users` WHERE " +
-		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 0, userPrimaryKeyColumns, len(o))
+	sql := "DELETE FROM `students` WHERE " +
+		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 0, studentPrimaryKeyColumns, len(o))
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
@@ -1092,15 +1092,15 @@ func (o UserSlice) DeleteAll(ctx context.Context, exec boil.ContextExecutor) (in
 	}
 	result, err := exec.ExecContext(ctx, sql, args...)
 	if err != nil {
-		return 0, errors.Wrap(err, "model: unable to delete all from user slice")
+		return 0, errors.Wrap(err, "model: unable to delete all from student slice")
 	}
 
 	rowsAff, err := result.RowsAffected()
 	if err != nil {
-		return 0, errors.Wrap(err, "model: failed to get rows affected by deleteall for users")
+		return 0, errors.Wrap(err, "model: failed to get rows affected by deleteall for students")
 	}
 
-	if len(userAfterDeleteHooks) != 0 {
+	if len(studentAfterDeleteHooks) != 0 {
 		for _, obj := range o {
 			if err := obj.doAfterDeleteHooks(ctx, exec); err != nil {
 				return 0, err
@@ -1112,9 +1112,9 @@ func (o UserSlice) DeleteAll(ctx context.Context, exec boil.ContextExecutor) (in
 }
 
 // ReloadG refetches the object from the database using the primary keys.
-func (o *User) ReloadG(ctx context.Context) error {
+func (o *Student) ReloadG(ctx context.Context) error {
 	if o == nil {
-		return errors.New("model: no User provided for reload")
+		return errors.New("model: no Student provided for reload")
 	}
 
 	return o.Reload(ctx, boil.GetContextDB())
@@ -1122,8 +1122,8 @@ func (o *User) ReloadG(ctx context.Context) error {
 
 // Reload refetches the object from the database
 // using the primary keys with an executor.
-func (o *User) Reload(ctx context.Context, exec boil.ContextExecutor) error {
-	ret, err := FindUser(ctx, exec, o.ID)
+func (o *Student) Reload(ctx context.Context, exec boil.ContextExecutor) error {
+	ret, err := FindStudent(ctx, exec, o.ID)
 	if err != nil {
 		return err
 	}
@@ -1134,9 +1134,9 @@ func (o *User) Reload(ctx context.Context, exec boil.ContextExecutor) error {
 
 // ReloadAllG refetches every row with matching primary key column values
 // and overwrites the original object slice with the newly updated slice.
-func (o *UserSlice) ReloadAllG(ctx context.Context) error {
+func (o *StudentSlice) ReloadAllG(ctx context.Context) error {
 	if o == nil {
-		return errors.New("model: empty UserSlice provided for reload all")
+		return errors.New("model: empty StudentSlice provided for reload all")
 	}
 
 	return o.ReloadAll(ctx, boil.GetContextDB())
@@ -1144,26 +1144,26 @@ func (o *UserSlice) ReloadAllG(ctx context.Context) error {
 
 // ReloadAll refetches every row with matching primary key column values
 // and overwrites the original object slice with the newly updated slice.
-func (o *UserSlice) ReloadAll(ctx context.Context, exec boil.ContextExecutor) error {
+func (o *StudentSlice) ReloadAll(ctx context.Context, exec boil.ContextExecutor) error {
 	if o == nil || len(*o) == 0 {
 		return nil
 	}
 
-	slice := UserSlice{}
+	slice := StudentSlice{}
 	var args []interface{}
 	for _, obj := range *o {
-		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), userPrimaryKeyMapping)
+		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), studentPrimaryKeyMapping)
 		args = append(args, pkeyArgs...)
 	}
 
-	sql := "SELECT `users`.* FROM `users` WHERE " +
-		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 0, userPrimaryKeyColumns, len(*o))
+	sql := "SELECT `students`.* FROM `students` WHERE " +
+		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 0, studentPrimaryKeyColumns, len(*o))
 
 	q := queries.Raw(sql, args...)
 
 	err := q.Bind(ctx, exec, &slice)
 	if err != nil {
-		return errors.Wrap(err, "model: unable to reload all in UserSlice")
+		return errors.Wrap(err, "model: unable to reload all in StudentSlice")
 	}
 
 	*o = slice
@@ -1171,15 +1171,15 @@ func (o *UserSlice) ReloadAll(ctx context.Context, exec boil.ContextExecutor) er
 	return nil
 }
 
-// UserExistsG checks if the User row exists.
-func UserExistsG(ctx context.Context, iD int) (bool, error) {
-	return UserExists(ctx, boil.GetContextDB(), iD)
+// StudentExistsG checks if the Student row exists.
+func StudentExistsG(ctx context.Context, iD int) (bool, error) {
+	return StudentExists(ctx, boil.GetContextDB(), iD)
 }
 
-// UserExists checks if the User row exists.
-func UserExists(ctx context.Context, exec boil.ContextExecutor, iD int) (bool, error) {
+// StudentExists checks if the Student row exists.
+func StudentExists(ctx context.Context, exec boil.ContextExecutor, iD int) (bool, error) {
 	var exists bool
-	sql := "select exists(select 1 from `users` where `id`=? limit 1)"
+	sql := "select exists(select 1 from `students` where `id`=? limit 1)"
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
@@ -1190,7 +1190,7 @@ func UserExists(ctx context.Context, exec boil.ContextExecutor, iD int) (bool, e
 
 	err := row.Scan(&exists)
 	if err != nil {
-		return false, errors.Wrap(err, "model: unable to check if users exists")
+		return false, errors.Wrap(err, "model: unable to check if students exists")
 	}
 
 	return exists, nil

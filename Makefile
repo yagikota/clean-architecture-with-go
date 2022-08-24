@@ -30,12 +30,12 @@ migrate: ## migrate
 # ローカルデータ挿入のコマンド
 .PHONY: seed
 seed: ## seed
-	mysql $(MYSQL_INFO) $(DB_NAME) < $(DML_DIR)/dummy_users_insert.sql
+	mysql $(MYSQL_INFO) $(DB_NAME) < $(DML_DIR)/dummy_students_insert.sql
 
 # ローカルデータDLETEのコマンド
 .PHONY: delete
 delete: ## delete
-	mysql $(MYSQL_INFO) $(DB_NAME) < $(DML_DIR)/dummy_users_delete.sql
+	mysql $(MYSQL_INFO) $(DB_NAME) < $(DML_DIR)/dummy_students_delete.sql
 
 # sqlboilerでmodel自動生成
 .PHONY: generate-model
