@@ -1,0 +1,15 @@
+pkgname = "model"
+output = "pkg/domain/model"
+wipe = true
+no-tests = true
+add-global-variants = true
+add-soft-deletes = true
+
+[mysql]
+dbname = "sample"
+host = "localhost"
+port = "3306"
+user = "root"
+pass = ""
+sslmode = "false"
+blacklist = ["schema_migrations"]
