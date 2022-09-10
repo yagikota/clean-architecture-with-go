@@ -43,8 +43,6 @@ func InitRouter() *echo.Echo {
 		// v1/students
 		relativePath := ""
 		studentGroup.GET(relativePath, handler.FindAllStudents())
-		// v1/students/{student_id}
-		// relativePath = fmt.Sprintf("/:%s", studentIDParam)
 	}
 
 	return e
