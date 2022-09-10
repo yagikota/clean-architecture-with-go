@@ -3,7 +3,10 @@ package http
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/yagikota/clean_architecture_wtih_go/pkg/domain/service"
 	"github.com/yagikota/clean_architecture_wtih_go/pkg/infra"
+	"github.com/yagikota/clean_architecture_wtih_go/pkg/infra/mysql"
+	"github.com/yagikota/clean_architecture_wtih_go/pkg/usecase"
 )
 
 const (
@@ -15,14 +18,14 @@ const (
 )
 
 func InitRouter() *echo.Echo {
-	router := echo.New()
-	router.Use(
+	e := echo.New()
+	e.Use(
 		middleware.Logger(),
 		middleware.Recover(),
 	)
 
 	// ヘルスチェック
-	healthCheckGroup := router.Group(healthCheckRoot)
+	healthCheckGroup := e.Group(healthCheckRoot)
 	{
 		relativePath := ""
 		healthCheckGroup.GET(relativePath, healthCheck)
@@ -30,6 +33,19 @@ func InitRouter() *echo.Echo {
 
 	// student
 	mySQLConn := infra.NewMySQLConnector()
+	studentRepository := mysql.NewRoomRepository(mySQLConn.Conn)
+	studentService := service.NewUserService(studentRepository)
+	studentUsecase := usecase.NewUserUsecase(studentService)
 
-	return router
+	studentGroup := e.Group(studentsAPIRoot)
+	{
+		handler := NewStudentHandler(studentUsecase)
+		// v1/students
+		relativePath := ""
+		studentGroup.GET(relativePath, handler.FindAllStudents())
+		// v1/students/{student_id}
+		// relativePath = fmt.Sprintf("/:%s", studentIDParam)
+	}
+
+	return e
 }

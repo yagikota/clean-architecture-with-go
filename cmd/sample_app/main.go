@@ -8,6 +8,7 @@ import (
 	"syscall"
 	"time"
 
+	_ "github.com/go-sql-driver/mysql"
 	adaptorHTTP "github.com/yagikota/clean_architecture_wtih_go/pkg/adapter/http"
 	"github.com/yagikota/clean_architecture_wtih_go/pkg/config"
 )
@@ -32,9 +33,8 @@ func main() {
 	go func() {
 		if err := srv.ListenAndServe(); err != nil {
 			log.Fatalf("Failed to listen and serve: %+v", err)
-		} else {
-			log.Println("server is running! addr: ", addr)
 		}
+		log.Println("server is running! addr: ", addr)
 	}()
 
 	// Listen for the interrupt signal.

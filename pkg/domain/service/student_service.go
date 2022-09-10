@@ -7,25 +7,24 @@ import (
 	"github.com/yagikota/clean_architecture_wtih_go/pkg/domain/repository"
 )
 
+// インターフェース
 type IStudentService interface {
-	FindUserByUserID(ctx context.Context, studentID int) (*model.Student, error)
-	FindAllUsers(ctx context.Context) (model.StudentSlice, error)
+	FindAllStudents(ctx context.Context) (model.StudentSlice, error)
 }
 
+// インターフェースを満たすstruct
 type studentService struct {
-	studentRepository repository.IStudentRepository
+	repo repository.IStudentRepository
 }
 
+// コンストラクタ
 func NewUserService(sr repository.IStudentRepository) IStudentService {
 	return &studentService{
-		studentRepository: sr,
+		repo: sr,
 	}
 }
 
-func (ss *studentService) FindUserByUserID(ctx context.Context, studentID int) (*model.Student, error) {
-	return ss.studentRepository.FindUserByUserID(ctx, studentID)
-}
-
-func (ss *studentService) FindAllUsers(ctx context.Context) (model.StudentSlice, error) {
-	return ss.studentRepository.FindAllUsers(ctx)
+// インターフェースを満たすように、メソッドを作る
+func (ss *studentService) FindAllStudents(ctx context.Context) (model.StudentSlice, error) {
+	return ss.repo.FindAllStudents(ctx)
 }

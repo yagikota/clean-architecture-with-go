@@ -3,40 +3,34 @@ package usecase
 import (
 	"context"
 
-	"github.com/yagikota/clean_architecture_wtih_go/pkg/domain/model"
+	"github.com/yagikota/clean_architecture_wtih_go/pkg/usecase/model"
 	"github.com/yagikota/clean_architecture_wtih_go/pkg/domain/service"
 )
 
-type IUserUsecase interface {
-	FindUserByUserID(ctx context.Context, studentID int) (*model.Student, error)
-	FindAllUsers(ctx context.Context) (model.StudentSlice, error)
+type IStudentUsecase interface {
+	FindAllStudents(ctx context.Context) (model.StudentSlice, error)
 }
 
 type studentUsecase struct {
-	studentService service.IStudentService
+	svc service.IStudentService
 }
 
-func NewUserUsecase(ss service.IStudentService) IUserUsecase {
+func NewUserUsecase(ss service.IStudentService) IStudentUsecase {
 	return &studentUsecase{
-		studentService: ss,
+		svc: ss,
 	}
 }
 
-func (su *studentUsecase) FindUserByUserID(ctx context.Context, userID int) (*model.Student, error) {
-	mu, err := su.studentService.FindUserByUserID(ctx, userID)
+func (su *studentUsecase) FindAllStudents(ctx context.Context) (model.StudentSlice, error) {
+	msSlice, err := su.svc.FindAllStudents(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	return model.UserFromDomainModel(mu), err
-}
-
-func (su *studentUsecase) FindAllUsers(ctx context.Context) (model.StudentSlice, error) {
-	msSlice, err := su.studentService.FindAllUsers(ctx)
-	if err != nil {
-		return nil, err
+	sSlice := make(model.StudentSlice, 0, len(msSlice))
+	for _, ms := range msSlice {
+		sSlice = append(sSlice, model.StudentFromDomainModel(ms))
 	}
 
-
-	return uSlice, nil
+	return sSlice, nil
 }
