@@ -18,6 +18,6 @@ FROM alpine
 
 RUN apk --no-cache add tzdata
 
-COPY --from=go-builder /go/src/github.com/yagikota/clean_architecture_wtih_go//server server
+COPY --from=go-builder /go/src/github.com/yagikota/clean_architecture_wtih_go/server server
 
 ENTRYPOINT ["/server"]

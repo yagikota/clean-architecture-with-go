@@ -3,6 +3,7 @@ package http
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/yagikota/clean_architecture_wtih_go/pkg/infra"
 )
 
 const (
@@ -26,5 +27,9 @@ func InitRouter() *echo.Echo {
 		relativePath := ""
 		healthCheckGroup.GET(relativePath, healthCheck)
 	}
+
+	// student
+	mySQLConn := infra.NewMySQLConnector()
+
 	return router
 }
