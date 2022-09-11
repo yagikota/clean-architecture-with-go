@@ -8,12 +8,12 @@ SET CHARSET utf8mb4;
 
 CREATE TABLE
     IF NOT EXISTS students (
-        id INT(11) AUTO_INCREMENT COMMENT "学籍番号",
-        name VARCHAR(8) NOT NULL COMMENT "氏名",
-        birthday DATE NOT NULL COMMENT "誕生日",
-        class INT(11) NOT NULL COMMENT "クラス番号",
-        created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT "ユーザー作成日時",
-        updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT "ユーザー更新日時",
-        deteled_at DATETIME COMMENT "ユーザー論理削除日時",
+        id INT(11) AUTO_INCREMENT COMMENT "student ID",
+        name VARCHAR(20) NOT NULL COMMENT "name",
+        birthday DATE NOT NULL COMMENT "birthday",
+        class INT(11) NOT NULL COMMENT "class number",
+        created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT "student creation date",
+        updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT "student updation date",
+        deteled_at DATETIME COMMENT "student logical deletion date",
         PRIMARY KEY (id)
-    ) ENGINE = INNODB COMMENT = '学生';
+    ) ENGINE = INNODB COMMENT = 'student';

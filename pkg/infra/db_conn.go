@@ -22,10 +22,6 @@ func NewMySQLConnector() *MySQLConnector {
 		panic(err)
 	}
 
-	if err := conn.Ping(); err != nil {
-		panic(err)
-	}
-
 	return &MySQLConnector{
 		Conn: conn,
 	}

@@ -2,7 +2,7 @@
 INSERT INTO students
 VALUES (
         1,
-        '山田一郎',
+        'Yamada Ichirou',
         '2000-01-01',
         1,
         default,
@@ -10,7 +10,7 @@ VALUES (
         default
     ), (
         2,
-        '山田二郎',
+        'Yamada Jirou',
         '2000-02-02',
         1,
         default,
@@ -18,7 +18,7 @@ VALUES (
         default
     ), (
         3,
-        '山田三郎',
+        'Yamada Saburou',
         '2000-03-03',
         1,
         default,
@@ -26,7 +26,7 @@ VALUES (
         default
     ), (
         4,
-        '山田四郎',
+        'Yamada Sirou',
         '2000-04-04',
         1,
         default,
@@ -34,7 +34,7 @@ VALUES (
         default
     ), (
         5,
-        '山田五郎',
+        'Yamada Gorou',
         '2000-05-05',
         1,
         default,
@@ -42,7 +42,7 @@ VALUES (
         default
     ), (
         6,
-        '山田六郎',
+        'Yamada Rpkurou',
         '2000-06-06',
         2,
         default,
@@ -50,7 +50,7 @@ VALUES (
         default
     ), (
         7,
-        '山田七郎',
+        'Yamada Shichiro',
         '2000-07-07',
         2,
         default,
@@ -58,7 +58,7 @@ VALUES (
         default
     ), (
         8,
-        '山田八郎',
+        'Yamada Hachirou',
         '2000-08-08',
         3,
         default,
@@ -66,7 +66,7 @@ VALUES (
         default
     ), (
         9,
-        '山田九郎',
+        'Yamada Kurou',
         '2000-09-09',
         3,
         default,
@@ -74,7 +74,7 @@ VALUES (
         default
     ), (
         10,
-        '山田十郎',
+        'Yamada Jurou',
         '2000-10-10',
         4,
         default,
