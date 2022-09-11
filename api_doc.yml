@@ -15,7 +15,6 @@ paths:
     get:
       tags:
         - student
-      summary: ユーザー詳細表示API（メッセージ詳細内）
       description: |
         全ての学生の情報を取得
       responses:
@@ -41,7 +40,6 @@ paths:
     get:
       tags:
         - student
-      summary: ユーザー詳細表示API（メッセージ詳細内）
       description: |
         指定した学生の情報を取得
       responses:

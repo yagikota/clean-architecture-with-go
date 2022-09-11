@@ -8,5 +8,6 @@ import (
 
 // Iはinterfaceを表現
 type IStudentRepository interface {
-	FindAllStudents(ctx context.Context) (model.StudentSlice, error)
+	SelectAllStudents(ctx context.Context) (model.StudentSlice, error)
+	SelectStudentByID(ctx context.Context, id int) (*model.Student, error)
 }

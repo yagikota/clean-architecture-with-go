@@ -1,6 +1,8 @@
 package http
 
 import (
+	"fmt"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/yagikota/clean_architecture_wtih_go/pkg/domain/service"
@@ -33,8 +35,8 @@ func InitRouter() *echo.Echo {
 
 	// student
 	mySQLConn := infra.NewMySQLConnector()
-	studentRepository := mysql.NewRoomRepository(mySQLConn.Conn)
-	studentService := service.NewUserService(studentRepository)
+	studentRepository := mysql.NewStudentRepository(mySQLConn.Conn)
+	studentService := service.NewStudentService(studentRepository)
 	studentUsecase := usecase.NewUserUsecase(studentService)
 
 	studentGroup := e.Group(studentsAPIRoot)
@@ -44,7 +46,8 @@ func InitRouter() *echo.Echo {
 		relativePath := ""
 		studentGroup.GET(relativePath, handler.FindAllStudents())
 		// v1/students/{student_id}
-		// relativePath = fmt.Sprintf("/:%s", studentIDParam)
+		relativePath = fmt.Sprintf("/:%s", studentIDParam)
+		studentGroup.GET(relativePath, handler.FindStudentByID())
 	}
 
 	return e

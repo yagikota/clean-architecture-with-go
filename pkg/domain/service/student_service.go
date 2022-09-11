@@ -10,6 +10,7 @@ import (
 // インターフェース
 type IStudentService interface {
 	FindAllStudents(ctx context.Context) (model.StudentSlice, error)
+	FindStudentByID(ctx context.Context, id int) (*model.Student, error)
 }
 
 // インターフェースを満たすstruct
@@ -18,7 +19,7 @@ type studentService struct {
 }
 
 // コンストラクタ
-func NewUserService(sr repository.IStudentRepository) IStudentService {
+func NewStudentService(sr repository.IStudentRepository) IStudentService {
 	return &studentService{
 		repo: sr,
 	}
@@ -26,5 +27,9 @@ func NewUserService(sr repository.IStudentRepository) IStudentService {
 
 // インターフェースを満たすように、メソッドを作る
 func (ss *studentService) FindAllStudents(ctx context.Context) (model.StudentSlice, error) {
-	return ss.repo.FindAllStudents(ctx)
+	return ss.repo.SelectAllStudents(ctx)
+}
+
+func (ss *studentService) FindStudentByID(ctx context.Context, id int) (*model.Student, error) {
+	return ss.repo.SelectStudentByID(ctx, id)
 }
