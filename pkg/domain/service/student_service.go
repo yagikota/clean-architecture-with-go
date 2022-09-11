@@ -10,7 +10,6 @@ import (
 // interface
 type IStudentService interface {
 	FindAllStudents(ctx context.Context) (model.StudentSlice, error)
-	FindStudentByID(ctx context.Context, id int) (*model.Student, error)
 }
 
 // struct that meets interface
@@ -28,8 +27,4 @@ func NewStudentService(sr repository.IStudentRepository) IStudentService {
 // implement methods according to interface
 func (ss *studentService) FindAllStudents(ctx context.Context) (model.StudentSlice, error) {
 	return ss.repo.SelectAllStudents(ctx)
-}
-
-func (ss *studentService) FindStudentByID(ctx context.Context, id int) (*model.Student, error) {
-	return ss.repo.SelectStudentByID(ctx, id)
 }

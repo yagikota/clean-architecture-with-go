@@ -3,13 +3,12 @@ package usecase
 import (
 	"context"
 
-	"github.com/yagikota/clean_architecture_wtih_go/pkg/usecase/model"
 	"github.com/yagikota/clean_architecture_wtih_go/pkg/domain/service"
+	"github.com/yagikota/clean_architecture_wtih_go/pkg/usecase/model"
 )
 
 type IStudentUsecase interface {
 	FindAllStudents(ctx context.Context) (model.StudentSlice, error)
-	FindStudentByID(ctx context.Context, id int) (*model.Student, error)
 }
 
 type studentUsecase struct {
@@ -34,13 +33,4 @@ func (su *studentUsecase) FindAllStudents(ctx context.Context) (model.StudentSli
 	}
 
 	return sSlice, nil
-}
-
-func (su *studentUsecase) FindStudentByID(ctx context.Context, id int) (*model.Student, error) {
-	ms, err := su.svc.FindStudentByID(ctx, id)
-	if err != nil {
-		return nil, err
-	}
-
-	return model.StudentFromDomainModel(ms), nil
 }
