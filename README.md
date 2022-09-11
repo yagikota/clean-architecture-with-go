@@ -27,21 +27,23 @@ make run-db
 make migrate 
 make seed
 ```
-`make migrate` may fail, but try some time.
+`make migrate` command may fail, but try some time.
 
 ### build API
 ```shell
 make run-go
 ```
 and access`localhost:8080/health_check`.
-you will get
+You will get the following response.
 ```json
 {
     "message": "Hello! you've requested: /health_check"
 }
 ```
-🐶 
-then, you have fully prepared for running API
+Then, you have fully prepared for running API
 
 ## 📄 API Document
 * copy and paste [this file](https://github.com/yagikota/clean_architecture_with_go/blob/main/api_doc.yml) on https://editor.swagger.io/
+
+
+🐶 I hope this repository helps you studying clean architecture with golang.
