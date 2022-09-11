@@ -33,14 +33,15 @@ make seed
 ```shell
 make run-go
 ```
-then, access`localhost:8080/health_check`.
+and access`localhost:8080/health_check`.
 you will get
 ```json
 {
     "message": "Hello! you've requested: /health_check"
 }
 ```
-🐶 you have fully prepared for running API
+🐶 
+then, you have fully prepared for running API
 
 ## 📄 API Document
 * copy and paste [this file](https://github.com/yagikota/clean_architecture_with_go/blob/main/api_doc.yml) on https://editor.swagger.io/
