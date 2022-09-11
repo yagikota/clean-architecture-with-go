@@ -14,6 +14,7 @@ cd clean_architecture_with_go
 echo "PORT=8080
 
 MYSQL_USER=root
+MYSQL_ROOT_PASSWORD=
 MYSQL_ALLOW_EMPTY_PASSWORD=true
 MYSQL_PORT=3306
 MYSQL_ADDR=mysql:3306
