@@ -13,18 +13,12 @@ type MySQLConnector struct {
 	Conn *sql.DB
 }
 
-// TODO: 返り値をinterfaceにする?
 func NewMySQLConnector() *MySQLConnector {
 	conf := config.LoadConfig()
 
 	dsn := mysqlConnInfo(*conf.MySQLInfo)
 	conn, err := sql.Open(driverName, dsn)
 	if err != nil {
-		panic(err)
-	}
-
-	// mysqlとの接続確認
-	if err := conn.Ping(); err != nil {
 		panic(err)
 	}
 

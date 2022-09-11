@@ -33,16 +33,16 @@ func StudentFromDomainModel(m *model.Student) *Student {
 	return s
 }
 
-// 誕生日から年齢を計算
+// calculate age from birthday
 func calcAge(birthday, currTime time.Time) (int, error) {
-	// タイムゾーンをJSTに設定
+	// set time zone
 	jst := time.FixedZone("Asia/Tokyo", 9*60*60)
 	nowJST := currTime.In(jst)
 
 	thisYear, thisMonth, thisDay := nowJST.Date()
 	age := thisYear - birthday.Year()
 
-	// 誕生日を迎えていない時の処理
+	// when birthday is yet to come
 	if thisMonth < birthday.Month() || thisMonth == birthday.Month() && thisDay < birthday.Day() {
 		age -= 1
 	}

@@ -1,23 +1,22 @@
 openapi: 3.0.2
 info:
-  title: 学生情報を取得するAPI
+  title: API to get students information
   description: |-
-    <b>学生情報を取得するAPIの仕様</b><br>
+    <b>Document of API to get students information</b><br>
   version: 1.0.0
 servers:
   - url: http://localhost:8080/v1/
 tags:
   - name: student
-    description: 学生関連API
+    description: API about student
 
 paths:
   /students/:
     get:
       tags:
         - student
-      summary: ユーザー詳細表示API（メッセージ詳細内）
       description: |
-        全ての学生の情報を取得
+        get all students information
       responses:
         200:
           description: A successful response.
@@ -41,9 +40,8 @@ paths:
     get:
       tags:
         - student
-      summary: ユーザー詳細表示API（メッセージ詳細内）
       description: |
-        指定した学生の情報を取得
+        get a student information
       responses:
         200:
           description: A successful response.
@@ -72,46 +70,46 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/StudentProfileGetResponse"
-          description: 全ての学生の情報
+          description: all students information
     StudentProfileGetResponse:
       type: object
       properties:
         id:
           type: integer
           example: 1
-          description: 学生ID
+          description: student ID
         name:
           type: string
-          example: 山田太郎
-          description: 学生の名前
+          example: Yamada Taro
+          description: student name
         age:
           type: integer
           example: 16
-          description: 年齢
+          description: age
         class:
           type: integer
           example: 1
-          description: クラス番号
+          description: class number
     ErrorResponseBadRequest:
       title: ErrorResponseBadRequest
       type: object
-      description: BadRequest時のエラーレスポンス
+      description: bad request error response
       properties:
         message:
           type: string
-          description: エラーメッセージサンプル
-          example: リクエストが不正です
+          description: Sample of error message
+          example: Bad Request
       required:
         - code
         - message
     ErrorResponseInternalServerError:
       title: ErrorResponseInternalServerError
       type: object
-      description: サーバーエラー時のエラーレスポンス
+      description: internal server error response
       properties:
         message:
           type: string
-          description: エラーメッセージサンプル
-          example: サーバーエラーが発生しました
+          description: sample of error message
+          example: internal Server Error
       required:
         - message

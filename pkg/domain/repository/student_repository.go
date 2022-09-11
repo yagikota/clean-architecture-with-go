@@ -6,7 +6,8 @@ import (
 	"github.com/yagikota/clean_architecture_wtih_go/pkg/domain/model"
 )
 
-// Iはinterfaceを表現
+// IHogeHoge represents interface of HogeHoge
 type IStudentRepository interface {
-	FindAllStudents(ctx context.Context) (model.StudentSlice, error)
+	SelectAllStudents(ctx context.Context) (model.StudentSlice, error)
+	SelectStudentByID(ctx context.Context, id int) (*model.Student, error)
 }

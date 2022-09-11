@@ -7,24 +7,29 @@ import (
 	"github.com/yagikota/clean_architecture_wtih_go/pkg/domain/repository"
 )
 
-// インターフェース
+// interface
 type IStudentService interface {
 	FindAllStudents(ctx context.Context) (model.StudentSlice, error)
+	FindStudentByID(ctx context.Context, id int) (*model.Student, error)
 }
 
-// インターフェースを満たすstruct
+// struct that meets interface
 type studentService struct {
 	repo repository.IStudentRepository
 }
 
-// コンストラクタ
-func NewUserService(sr repository.IStudentRepository) IStudentService {
+// constructor
+func NewStudentService(sr repository.IStudentRepository) IStudentService {
 	return &studentService{
 		repo: sr,
 	}
 }
 
-// インターフェースを満たすように、メソッドを作る
+// implement methods according to interface
 func (ss *studentService) FindAllStudents(ctx context.Context) (model.StudentSlice, error) {
-	return ss.repo.FindAllStudents(ctx)
+	return ss.repo.SelectAllStudents(ctx)
+}
+
+func (ss *studentService) FindStudentByID(ctx context.Context, id int) (*model.Student, error) {
+	return ss.repo.SelectStudentByID(ctx, id)
 }
