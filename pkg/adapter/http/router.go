@@ -14,7 +14,7 @@ import (
 const (
 	apiVersion      = "/v1"
 	healthCheckRoot = "/health_check"
-	// student系
+	// student
 	studentsAPIRoot = apiVersion + "/students"
 	studentIDParam  = "student_id"
 )
@@ -26,7 +26,7 @@ func InitRouter() *echo.Echo {
 		middleware.Recover(),
 	)
 
-	// ヘルスチェック
+	// health check
 	healthCheckGroup := e.Group(healthCheckRoot)
 	{
 		relativePath := ""

@@ -13,7 +13,6 @@ type MySQLConnector struct {
 	Conn *sql.DB
 }
 
-// TODO: 返り値をinterfaceにする?
 func NewMySQLConnector() *MySQLConnector {
 	conf := config.LoadConfig()
 
@@ -23,7 +22,6 @@ func NewMySQLConnector() *MySQLConnector {
 		panic(err)
 	}
 
-	// mysqlとの接続確認
 	if err := conn.Ping(); err != nil {
 		panic(err)
 	}

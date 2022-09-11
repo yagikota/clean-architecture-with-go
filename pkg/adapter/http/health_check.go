@@ -11,13 +11,13 @@ type healthCheckResponse struct {
 	Message string `json:"message"`
 }
 
-// ヘルスチェック用
+// for health check
 //
 //	{
 //	    "message": "Hello, C Team. you've requested: /health_check"
 //	}
 //
-// が返ってくる
+// will return
 func healthCheck(c echo.Context) error {
 	message := fmt.Sprintf("Hello! you've requested: %s", c.Path())
 	return c.JSON(
