@@ -4,11 +4,24 @@
 
 ## 👟 How to run
 ### install
+#### this repository
 ```shell
 git clone git@github.com:yagikota/clean_architecture_with_go.git
 
 cd clean_architecture_with_go
 ```
+#### [SQLBoiler](https://github.com/volatiletech/sqlboiler#getting-started)
+```shell
+$ go install github.com/volatiletech/sqlboiler/v4@latest
+# install drive for MySQL
+$ go install github.com/volatiletech/sqlboiler/v4/drivers/sqlboiler-mysql@latest
+```
+
+#### [golang-migrate](https://formulae.brew.sh/formula/golang-migrate)
+```shell
+brew install golang-migrate
+```
+
 ### set environment variables
 ```shell
 echo "PORT=8080
