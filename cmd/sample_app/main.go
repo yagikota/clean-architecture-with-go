@@ -31,10 +31,10 @@ func main() {
 	// graceful shutdown
 	// https://github.com/gin-gonic/examples/blob/master/graceful-shutdown/graceful-shutdown/notify-without-context/server.go
 	go func() {
+		log.Println("server is running! addr: ", addr)
 		if err := srv.ListenAndServe(); err != nil {
 			log.Fatalf("Failed to listen and serve: %+v", err)
 		}
-		log.Println("server is running! addr: ", addr)
 	}()
 
 	// Listen for the interrupt signal.
