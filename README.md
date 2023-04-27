@@ -6,9 +6,9 @@
 ### install
 #### this repository
 ```shell
-git clone git@github.com:yagikota/clean_architecture_with_go.git
+git clone git@github.com:yagikota/clean-architecture-with-go.git
 
-cd clean_architecture_with_go
+cd clean_architecture-with-go
 ```
 #### [SQLBoiler](https://github.com/volatiletech/sqlboiler#getting-started)
 ```shell
