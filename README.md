@@ -1,4 +1,4 @@
-# clean_architecture_with_go
+# clean-architecture-with-go
 ## 🗄 About this repository
 * This is a sample API built by Go(echo) and SQLBoiler according to Clean Architecture.
 
