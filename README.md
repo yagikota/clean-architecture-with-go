@@ -13,7 +13,7 @@ cd clean_architecture-with-go
 #### [SQLBoiler](https://github.com/volatiletech/sqlboiler#getting-started)
 ```shell
 $ go install github.com/volatiletech/sqlboiler/v4@latest
-# install drive for MySQL
+# install driver for MySQL
 $ go install github.com/volatiletech/sqlboiler/v4/drivers/sqlboiler-mysql@latest
 ```
 
